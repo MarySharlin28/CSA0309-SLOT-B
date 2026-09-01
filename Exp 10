@@ -1,0 +1,11 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct N{int d;struct N*n;};
+int main(){
+ struct N *h=0,*t,*p;int x;
+ while(scanf("%d",&x)&&x!=-1){
+  t=malloc(sizeof(*t));t->d=x;t->n=0;
+  if(!h)h=t;else p->n=t;p=t;
+ }
+ for(p=h;p;p=p->n)printf("%d ",p->d);
+}
