@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct N{
+    int d,h;
+    struct N*l,*r;
+};
+
+int ht(struct N*n){return n?n->h:0;}
+int mx(int a,int b){return a>b?a:b;}
+
+struct N*new(int x){
+    struct N*n=malloc(sizeof(*n));
+    n->d=x;n->h=1;n->l=n->r=NULL;
+    return n;
+}
+struct N*right(struct N*y){
+    struct N*x=y->l,*t=x->r;
+    x->r=y;y->l=t;
+    y->h=mx(ht(y->l),ht(y->r))+1;
+    x->h=mx(ht(x->l),ht(x->r))+1;
+    return x;
+}
+struct N*left(struct N*x){
+    struct N*y=x->r,*t=y->l;
+    y->l=x;x->r=t;
+    x->h=mx(ht(x->l),ht(x->r))+1;
+    y->h=mx(ht(y->l),ht(y->r))+1;
+    return y;
+}
+struct N*insert(struct N*n,int x){
+    if(!n)return new(x);
+    if(x<n->d)n->l=insert(n->l,x);
+    else if(x>n->d)n->r=insert(n->r,x);
+    else return n;
+
+    n->h=1+mx(ht(n->l),ht(n->r));
+    int b=ht(n->l)-ht(n->r);
+
+    if(b>1&&x<n->l->d)return right(n);
+    if(b<-1&&x>n->r->d)return left(n);
+    if(b>1&&x>n->l->d){n->l=left(n->l);return right(n);}
+    if(b<-1&&x<n->r->d){n->r=right(n->r);return left(n);}
+    return n;
+}
+void search(struct N*n,int x){
+    if(!n)printf("Not Found");
+    else if(n->d==x)printf("Found");
+    else if(x<n->d)search(n->l,x);
+    else search(n->r,x);
+}
+int main(){
+    struct N*r=NULL;
+    int a[]={30,20,40,10,25},i,x;
+    for(i=0;i<5;i++)r=insert(r,a[i]);
+    scanf("%d",&x);
+    search(r,x);
+}
