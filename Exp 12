@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<ctype.h>
+char s[20]; int top=-1;
+
+int p(char c){
+    if(c=='+'||c=='-') return 1;
+    if(c=='*'||c=='/') return 2;
+    return 0;
+}
+int main(){
+    char in[20],c; int i;
+    scanf("%s",in);
+    for(i=0;in[i];i++){
+        c=in[i];
+        if(isalnum(c)) printf("%c",c);
+        else if(c=='(') s[++top]=c;
+        else if(c==')'){
+            while(s[top]!='(') printf("%c",s[top--]);
+            top--;
+        }else{
+            while(top>=0&&p(s[top])>=p(c)) printf("%c",s[top--]);
+            s[++top]=c;
+        }
+    }
+    while(top>=0) printf("%c",s[top--]);
+}
