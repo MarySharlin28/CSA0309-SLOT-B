@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct N{int d;struct N*l,*r;};
+
+struct N* new(int x){
+    struct N*t=malloc(sizeof(struct N));
+    t->d=x;t->l=t->r=NULL;return t;
+}
+struct N* insert(struct N*t,int x){
+    if(!t)return new(x);
+    if(x<t->d)t->l=insert(t->l,x);
+    else t->r=insert(t->r,x);
+    return t;
+}
+void in(struct N*t){if(t){in(t->l);printf("%d ",t->d);in(t->r);}}
+void pre(struct N*t){if(t){printf("%d ",t->d);pre(t->l);pre(t->r);}}
+void post(struct N*t){if(t){post(t->l);post(t->r);printf("%d ",t->d);}}
+
+int main(){
+    struct N*t=NULL;
+    int a[]={50,30,70,20,40},i;
+    for(i=0;i<5;i++)t=insert(t,a[i]);
+    printf("Inorder: ");in(t);
+    printf("\nPreorder: ");pre(t);
+    printf("\nPostorder: ");post(t);
+}
