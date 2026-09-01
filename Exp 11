@@ -1,0 +1,22 @@
+#include<stdio.h>
+#define N 5
+int s[N],top=-1;
+
+void push(int x){
+    if(top==N-1) printf("Overflow\n");
+    else s[++top]=x;
+}
+void pop(){
+    if(top==-1) printf("Underflow\n");
+    else printf("Popped %d\n",s[top--]);
+}
+void peek(){
+    if(top==-1) printf("Empty\n");
+    else printf("Top = %d\n",s[top]);
+}
+int main(){
+    push(10); push(20); push(30);
+    peek();
+    pop();
+    peek();
+}
