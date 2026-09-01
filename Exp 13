@@ -1,0 +1,20 @@
+#include<stdio.h>
+#define N 5
+int q[N],f=-1,r=-1;
+
+void enq(int x){
+    if(r==N-1) printf("Full\n");
+    else{
+        if(f==-1) f=0;
+        q[++r]=x;
+    }
+}
+void deq(){
+    if(f==-1||f>r) printf("Empty\n");
+    else printf("Deleted %d\n",q[f++]);
+}
+int main(){
+    enq(10); enq(20); enq(30);
+    deq();
+    for(int i=f;i<=r;i++) printf("%d ",q[i]);
+}
